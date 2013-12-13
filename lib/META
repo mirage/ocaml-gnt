@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: 7bad4118879d544c148b6319e8e129f3)
+version = "0.5.0"
+description = "Xen grant table bindings"
+requires = "unix bigarray"
+archive(byte) = "gnt.cma"
+archive(byte, plugin) = "gnt.cma"
+archive(native) = "gnt.cmxa"
+archive(native, plugin) = "gnt.cmxs"
+exists_if = "gnt.cma"
+# OASIS_STOP
+
