@@ -2,7 +2,7 @@ all: build
 
 TESTS_FLAG=--enable-tests
 
-NAME=crc
+NAME=gnt
 J=4
 
 LIBDIR=_build/lib
