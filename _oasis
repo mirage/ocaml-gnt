@@ -7,17 +7,25 @@ License:     LGPL-2.1 with OCaml linking exception
 Plugins:     META (0.3)
 BuildTools:  ocamlbuild
 
-Library gnt
+Library xen_gnt
   CompiledObject:     best
   Path:               lib
-  Findlibname:        gnt
+  Findlibname:        xen-gnt
   Modules:            Gnt
   ByteOpt:            -bin-annot
   NativeOpt:          -bin-annot
+  BuildDepends:       unix, bigarray, io-page, lwt
+
+Library xen_gnt_unix
+  CompiledObject:     best
+  Path:               lib
+  Findlibparent:      xen_gnt
+  Findlibname:        unix
+  Modules:            Gnt_dummy # to ensure library is created
   CSources:           gntshr_stubs.c, gnttab_stubs.c
   CCLib:              -L/usr/lib/xen-4.2/lib -lxenctrl
   CCOpt:              -Wno-unused-function -g -ggdb
-  BuildDepends:       unix, bigarray
+  BuildDepends:       unix, lwt, lwt.unix, bigarray, io-page.unix
 
 Executable test_gntshr
   CompiledObject:     best
@@ -26,7 +34,7 @@ Executable test_gntshr
   Install:            false
   ByteOpt:            -bin-annot
   NativeOpt:          -bin-annot
-  BuildDepends:       gnt, cstruct
+  BuildDepends:       xen-gnt, xen-gnt.unix, cstruct
 
 Document api
   Title: Grant table bindings' documentation and API reference

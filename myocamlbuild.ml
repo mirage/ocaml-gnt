@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: b3990f9970d474ad3f0ff6179c43dca1) *)
+(* DO NOT EDIT (digest: b5a6a1f8fe2309de1c3d357306afce8e) *)
 module OASISGettext = struct
 (* # 22 "src/oasis/OASISGettext.ml" *)
 
@@ -368,7 +368,11 @@ module MyOCamlbuildFindlib = struct
           flag ["ocaml"; "pkg_threads"; "compile"] (S[A "-thread"]);
           flag ["ocaml"; "pkg_threads"; "doc"] (S[A "-I"; A "+threads"]);
           flag ["ocaml"; "pkg_threads"; "link"] (S[A "-thread"]);
-          flag ["ocaml"; "pkg_threads"; "infer_interface"] (S[A "-thread"])
+          flag ["ocaml"; "pkg_threads"; "infer_interface"] (S[A "-thread"]);
+          flag ["ocaml"; "package(threads)"; "compile"] (S[A "-thread"]);
+          flag ["ocaml"; "package(threads)"; "doc"] (S[A "-I"; A "+threads"]);
+          flag ["ocaml"; "package(threads)"; "link"] (S[A "-thread"]);
+          flag ["ocaml"; "package(threads)"; "infer_interface"] (S[A "-thread"]);
 
       | _ ->
           ()
@@ -547,15 +551,28 @@ module MyOCamlbuildBase = struct
 end
 
 
-# 550 "myocamlbuild.ml"
+# 554 "myocamlbuild.ml"
 open Ocamlbuild_plugin;;
 let package_default =
   {
-     MyOCamlbuildBase.lib_ocaml = [("gnt", ["lib"], [])];
-     lib_c = [("gnt", "lib", [])];
+     MyOCamlbuildBase.lib_ocaml =
+       [("xen_gnt", ["lib"], []); ("xen_gnt_unix", ["lib"], [])];
+     lib_c = [("xen_gnt_unix", "lib", [])];
      flags =
        [
-          (["oasis_library_gnt_ccopt"; "compile"],
+          (["oasis_library_xen_gnt_byte"; "ocaml"; "link"; "byte"],
+            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
+          (["oasis_library_xen_gnt_native"; "ocaml"; "link"; "native"],
+            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
+          (["oasis_library_xen_gnt_byte"; "ocaml"; "ocamldep"; "byte"],
+            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
+          (["oasis_library_xen_gnt_native"; "ocaml"; "ocamldep"; "native"],
+            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
+          (["oasis_library_xen_gnt_byte"; "ocaml"; "compile"; "byte"],
+            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
+          (["oasis_library_xen_gnt_native"; "ocaml"; "compile"; "native"],
+            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
+          (["oasis_library_xen_gnt_unix_ccopt"; "compile"],
             [
                (OASISExpr.EBool true,
                  S
@@ -568,7 +585,7 @@ let package_default =
                       A "-ggdb"
                    ])
             ]);
-          (["oasis_library_gnt_cclib"; "link"],
+          (["oasis_library_xen_gnt_unix_cclib"; "link"],
             [
                (OASISExpr.EBool true,
                  S
@@ -579,23 +596,11 @@ let package_default =
                       A "-lxenctrl"
                    ])
             ]);
-          (["oasis_library_gnt_cclib"; "ocamlmklib"; "c"],
+          (["oasis_library_xen_gnt_unix_cclib"; "ocamlmklib"; "c"],
             [
                (OASISExpr.EBool true,
                  S [A "-L/usr/lib/xen-4.2/lib"; A "-lxenctrl"])
             ]);
-          (["oasis_library_gnt_byte"; "ocaml"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
-          (["oasis_library_gnt_native"; "ocaml"; "link"; "native"],
-            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
-          (["oasis_library_gnt_byte"; "ocaml"; "ocamldep"; "byte"],
-            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
-          (["oasis_library_gnt_native"; "ocaml"; "ocamldep"; "native"],
-            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
-          (["oasis_library_gnt_byte"; "ocaml"; "compile"; "byte"],
-            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
-          (["oasis_library_gnt_native"; "ocaml"; "compile"; "native"],
-            [(OASISExpr.EBool true, S [A "-bin-annot"])]);
           (["oasis_executable_test_gntshr_byte"; "ocaml"; "link"; "byte"],
             [(OASISExpr.EBool true, S [A "-bin-annot"])]);
           (["oasis_executable_test_gntshr_native"; "ocaml"; "link"; "native"],
@@ -625,6 +630,6 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 629 "myocamlbuild.ml"
+# 634 "myocamlbuild.ml"
 (* OASIS_STOP *)
 Ocamlbuild_plugin.dispatch dispatch_default;;
