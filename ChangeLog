@@ -1,5 +1,6 @@
-trunk (unreleased)
- * replace with the Mirage implementation
+0.9.9 (30-Jan-2014)
+ * replace with the Mirage implementation. This allows the same
+   application to be relinked to run in userspace or kernelspace.
 
 0.5.0 (20-Dec-2013)
  * initial release.
