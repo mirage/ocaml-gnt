@@ -2,7 +2,7 @@ all: build
 
 TESTS_FLAG=--enable-tests
 
-NAME=gnt
+NAME=xen-gnt
 J=4
 
 LIBDIR=_build/lib

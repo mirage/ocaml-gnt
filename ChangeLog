@@ -1,2 +1,5 @@
+trunk (unreleased)
+ * replace with the Mirage implementation
+
 0.5.0 (20-Dec-2013)
  * initial release.
