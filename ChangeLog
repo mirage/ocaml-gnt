@@ -1,3 +1,7 @@
+1.0.0 (30-Jan-2014)
+ * only compile the C stubs if the xen headers are present. They
+   aren't needed for Mirage kernels.
+
 0.9.9 (30-Jan-2014)
  * replace with the Mirage implementation. This allows the same
    application to be relinked to run in userspace or kernelspace.

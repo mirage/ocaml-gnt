@@ -1,5 +1,5 @@
 # OPAM packages needed to build tests.
-OPAM_PACKAGES="lwt io-page"
+OPAM_PACKAGES="lwt io-page cmdliner"
 
 
 case "$OCAML_VERSION,$OPAM_VERSION" in
@@ -27,9 +27,10 @@ opam init
 opam install ${OPAM_PACKAGES}
 
 eval `opam config -env`
-# no xen
+# build without xen
 make
+# .. then build with xen
 sudo apt-get install -qq libxen-dev
 make clean
 make
-make test
+# make test # needs xen to run

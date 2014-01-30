@@ -1,11 +1,15 @@
 OASISFormat: 0.3
 Name:        gnt
-Version:     0.5.0
+Version:     1.0.0
 Synopsis:    Xen grant table bindings
 Authors:     John Else
 License:     LGPL-2.1 with OCaml linking exception
 Plugins:     META (0.3)
 BuildTools:  ocamlbuild
+
+Flag xenctrl
+  Description:        build Unix userspace bindings
+  Default:            false
 
 Library xen_gnt
   CompiledObject:     best
@@ -17,6 +21,7 @@ Library xen_gnt
   BuildDepends:       unix, bigarray, io-page, lwt
 
 Library xen_gnt_unix
+  Build$:             flag(xenctrl)
   CompiledObject:     best
   Path:               lib
   Findlibparent:      xen_gnt
@@ -28,6 +33,7 @@ Library xen_gnt_unix
   BuildDepends:       unix, lwt, lwt.unix, bigarray, io-page.unix
 
 Executable test_gntshr
+  Build$:             flag(xenctrl)
   CompiledObject:     best
   Path:               test
   MainIs:             test_gntshr.ml
