@@ -1,5 +1,5 @@
 # OPAM packages needed to build tests.
-OPAM_PACKAGES="lwt io-page"
+OPAM_PACKAGES="lwt io-page cmdliner"
 
 
 case "$OCAML_VERSION,$OPAM_VERSION" in
