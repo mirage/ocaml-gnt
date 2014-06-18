@@ -34,13 +34,16 @@
 
 #define _G(__g) ((xc_gnttab *)(__g))
 
+#define Nothing ((value) 0)
+extern void uerror(char *cmdname, value cmdarg);
+
 CAMLprim value stub_gnttab_interface_open(void)
 {
 	CAMLparam0();
 	xc_gnttab *xgh;
 	xgh = xc_gnttab_open(NULL, 0);
 	if (xgh == NULL)
-		caml_failwith("Failed to open interface");
+		uerror("xc_gnttab_open", Nothing);
 	CAMLreturn((value)xgh);
 }
 

@@ -28,7 +28,18 @@ type grant_handle (* handle to a mapped grant *)
 module Gnttab = struct
   type interface
 
-  external interface_open: unit -> interface = "stub_gnttab_interface_open"
+  external interface_open': unit -> interface = "stub_gnttab_interface_open"
+
+  let interface_open () =
+    try
+      interface_open' ()
+    with Unix.Unix_error(Unix.ENOENT, _, _) as e ->
+      Printf.fprintf stderr "Failed to open grant table device: ENOENT\n";
+      Printf.fprintf stderr "Does this system have Xen userspace grant table support?\n";
+      Printf.fprintf stderr "On linux try:\n";
+      Printf.fprintf stderr "  sudo modprobe xen-gntdev\n%!";
+      raise e
+
   external interface_close: interface -> unit = "stub_gnttab_interface_close"
 
   type grant = {
@@ -124,8 +135,18 @@ end
 module Gntshr = struct
   type interface
 
-  external interface_open: unit -> interface = "stub_gntshr_open"
+  external interface_open': unit -> interface = "stub_gntshr_open"
   external interface_close: interface -> unit = "stub_gntshr_close"
+
+  let interface_open () =
+    try
+      interface_open' ()
+    with Unix.Unix_error(Unix.ENOENT, _, _) as e ->
+      Printf.fprintf stderr "Failed to open grant share device: ENOENT\n";
+      Printf.fprintf stderr "Does this system have Xen userspace grant share support?\n";
+      Printf.fprintf stderr "On linux try:\n";
+      Printf.fprintf stderr "  sudo modprobe xen-gntalloc\n%!";
+      raise e
 
   type share = {
     refs: gntref list;
