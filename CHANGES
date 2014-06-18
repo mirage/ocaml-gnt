@@ -1,3 +1,8 @@
+1.0.1 (18-Jun-2014)
+ * This code is now part of the Mirage project
+ * better error message when kernel modules are missing
+ * standardise on Mirage ISC license
+
 1.0.0 (30-Jan-2014)
  * only compile the C stubs if the xen headers are present. They
    aren't needed for Mirage kernels.
