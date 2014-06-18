@@ -3,7 +3,7 @@ Name:        gnt
 Version:     1.0.0
 Synopsis:    Xen grant table bindings
 Authors:     John Else
-License:     LGPL-2.1 with OCaml linking exception
+License:     ISC
 Plugins:     META (0.3)
 BuildTools:  ocamlbuild
 
