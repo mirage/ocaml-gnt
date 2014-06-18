@@ -61,13 +61,13 @@ module Gnttab = struct
   external map_fresh_exn: interface -> gntref -> domid -> bool -> (grant_handle * Io_page.t) = "stub_gnttab_map_fresh"
 
   let map_exn interface grant writable = match gnttab_allocates with
-  | true ->
-    let h, page = map_fresh_exn interface grant.ref grant.domid writable in
-    Local_mapping.make [h] page
-  | false ->
-    let page = Io_page.get 1 in
-    let h = map_onto_exn interface grant.ref page grant.domid writable in
-    Local_mapping.make [h] page
+    | true ->
+      let h, page = map_fresh_exn interface grant.ref grant.domid writable in
+      Local_mapping.make [h] page
+    | false ->
+      let page = Io_page.get 1 in
+      let h = map_onto_exn interface grant.ref page grant.domid writable in
+      Local_mapping.make [h] page
 
   let map interface grant writable = try Some (map_exn interface grant writable) with _ -> None
 
@@ -76,26 +76,26 @@ module Gnttab = struct
   external mapv_batched_exn: interface -> int array -> bool -> (grant_handle * Io_page.t) = "stub_gnttab_mapv_batched"
 
   let mapv_exn interface grants writable = match gnttab_allocates with
-  | true ->
-    let count = List.length grants in
-    let grant_array = Array.create (count * 2) 0 in
-    List.iteri (fun i g ->
-      grant_array.(i * 2 + 0) <- g.domid;
-      grant_array.(i * 2 + 1) <- g.ref;
-    ) grants;
-    let h, page = mapv_batched_exn interface grant_array writable in
-    Local_mapping.make [h] page
-  | false ->
-    let nb_grants = List.length grants in
-    let block = Io_page.get nb_grants in
-    let pages = Io_page.to_pages block in
-    let hs =
-      List.fold_left2 (fun acc g p ->
-        try (map_onto_exn interface g.ref p g.domid writable)::acc
-        with exn ->
-          List.iter (unmap_exn interface) acc;
-          raise exn) [] grants pages
-    in Local_mapping.make hs block
+    | true ->
+      let count = List.length grants in
+      let grant_array = Array.create (count * 2) 0 in
+      List.iteri (fun i g ->
+          grant_array.(i * 2 + 0) <- g.domid;
+          grant_array.(i * 2 + 1) <- g.ref;
+        ) grants;
+      let h, page = mapv_batched_exn interface grant_array writable in
+      Local_mapping.make [h] page
+    | false ->
+      let nb_grants = List.length grants in
+      let block = Io_page.get nb_grants in
+      let pages = Io_page.to_pages block in
+      let hs =
+        List.fold_left2 (fun acc g p ->
+            try (map_onto_exn interface g.ref p g.domid writable)::acc
+            with exn ->
+              List.iter (unmap_exn interface) acc;
+              raise exn) [] grants pages
+      in Local_mapping.make hs block
 
   let mapv interface gs p = try Some (mapv_exn interface gs p) with _ -> None
 
@@ -104,10 +104,10 @@ module Gnttab = struct
   let with_gnttab f =
     let intf = interface_open () in
     let result = try
-      f intf
-    with e ->
-      interface_close intf;
-      raise e
+        f intf
+      with e ->
+        interface_close intf;
+        raise e
     in
     interface_close intf;
     result
@@ -116,9 +116,9 @@ module Gnttab = struct
     let mapping = map interface grant writable in
     try_lwt fn mapping
     finally
-      match mapping with
-      | None -> Lwt.return ()
-      | Some mapping -> Lwt.return (unmap_exn interface mapping)
+    match mapping with
+    | None -> Lwt.return ()
+    | Some mapping -> Lwt.return (unmap_exn interface mapping)
 end
 
 module Gntshr = struct
@@ -133,7 +133,7 @@ module Gntshr = struct
   }
 
   exception Interface_unavailable
-  
+
   (* For kernelspace we need to track the real free grant table slots. *)
 
   let free_list : gntref Queue.t = Queue.create ()
@@ -145,19 +145,19 @@ module Gntshr = struct
     | None -> ()
     | Some u -> Lwt.wakeup u ()
 
-    let num_free_grants () = Queue.length free_list
+  let num_free_grants () = Queue.length free_list
 
   let rec get () =
     if Gnttab.gnttab_allocates
     then fail Interface_unavailable
     else match Queue.is_empty free_list with
-    | true ->
-      let th, u = Lwt.task () in
-      let node = Lwt_sequence.add_r u free_list_waiters  in
-      Lwt.on_cancel th (fun () -> Lwt_sequence.remove node);
-      th >> get ()
-    | false ->
-      return (Queue.pop free_list)
+      | true ->
+        let th, u = Lwt.task () in
+        let node = Lwt_sequence.add_r u free_list_waiters  in
+        Lwt.on_cancel th (fun () -> Lwt_sequence.remove node);
+        th >> get ()
+      | false ->
+        return (Queue.pop free_list)
 
   let get_n num =
     let rec gen_gnts num acc =
@@ -166,7 +166,7 @@ module Gntshr = struct
       | n ->
         lwt gnt = get () in
         gen_gnts (n-1) (gnt :: acc)
-      in gen_gnts num []
+    in gen_gnts num []
 
   let get_nonblock () =
     if Gnttab.gnttab_allocates then raise Interface_unavailable;
@@ -174,13 +174,13 @@ module Gntshr = struct
 
   let get_n_nonblock num =
     let rec aux acc num = match num with
-    | 0 -> List.rev acc
-    | n ->
-      (match get_nonblock () with
-       | Some p -> aux (p::acc) (n-1)
+      | 0 -> List.rev acc
+      | n ->
+        (match get_nonblock () with
+         | Some p -> aux (p::acc) (n-1)
          (* If we can't have enough, we push them back in the queue. *)
-       | None -> List.iter (fun gntref -> Queue.push gntref free_list) acc; [])
-      in aux [] num
+         | None -> List.iter (fun gntref -> Queue.push gntref free_list) acc; [])
+    in aux [] num
 
   let with_ref f =
     lwt gnt = get () in
@@ -212,8 +212,8 @@ module Gntshr = struct
   let with_grants ~domid ~writable gnts pages fn =
     try_lwt
       List.iter (fun (gnt, page) ->
-        grant_access ~domid ~writable gnt page) (List.combine gnts pages);
-        fn ()
+          grant_access ~domid ~writable gnt page) (List.combine gnts pages);
+      fn ()
     finally
       Lwt.return (List.iter end_access gnts)
 
@@ -260,10 +260,10 @@ module Gntshr = struct
   let with_gntshr f =
     let intf = interface_open () in
     let result = try
-      f intf
-    with e ->
-      interface_close intf;
-      raise e
+        f intf
+      with e ->
+        interface_close intf;
+        raise e
     in
     interface_close intf;
     result
