@@ -1,15 +1,17 @@
 /*
  * Copyright (C) 2012-2013 Citrix Inc
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published
- * by the Free Software Foundation; version 2.1 only. with the special
- * exception on linking described in file LICENSE.
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
 #include <stdlib.h>
@@ -46,6 +48,9 @@ static void gntshr_missing()
 
 #define XC_GNTTAB_BIGARRAY (CAML_BA_UINT8 | CAML_BA_C_LAYOUT | CAML_BA_EXTERNAL)
 
+#define Nothing ((value) 0)
+extern void uerror(char *cmdname, value cmdarg);
+
 #ifdef HAVE_GNTSHR
 #define ERROR_STRLEN 1024
 static void failwith_xc(xc_interface *xch)
@@ -76,7 +81,7 @@ CAMLprim value stub_gntshr_open(value unit)
 
 	xgh = xc_gntshr_open(NULL, 0);
 	if (NULL == xgh)
-		failwith_xc(NULL);
+		uerror("xc_gntshr_open", Nothing);
 	result = (value)xgh;
 #else
 	gntshr_missing();

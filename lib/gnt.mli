@@ -48,10 +48,10 @@ module Gnttab : sig
       unmap will fail. *)
 
   type grant = {
-   domid: int;
-   (** foreign domain who is exporting memory *)
-   ref: gntref;
-   (** id which identifies the specific export in the foreign domain *)
+    domid: int;
+    (** foreign domain who is exporting memory *)
+    ref: gntref;
+    (** id which identifies the specific export in the foreign domain *)
   }
   (** A foreign domain must explicitly "grant" us memory and send us the
       "reference". The pair of (foreign domain id, reference) uniquely
