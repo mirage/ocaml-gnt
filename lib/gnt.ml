@@ -33,7 +33,7 @@ module Gnttab = struct
   let interface_open () =
     try
       interface_open' ()
-    with Unix.Unix_error(Unix.ENOENT, _, _) as e ->
+    with e ->
       Printf.fprintf stderr "Failed to open grant table device: ENOENT\n";
       Printf.fprintf stderr "Does this system have Xen userspace grant table support?\n";
       Printf.fprintf stderr "On linux try:\n";
@@ -141,7 +141,7 @@ module Gntshr = struct
   let interface_open () =
     try
       interface_open' ()
-    with Unix.Unix_error(Unix.ENOENT, _, _) as e ->
+    with e ->
       Printf.fprintf stderr "Failed to open grant share device: ENOENT\n";
       Printf.fprintf stderr "Does this system have Xen userspace grant share support?\n";
       Printf.fprintf stderr "On linux try:\n";
