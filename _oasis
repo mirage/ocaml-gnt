@@ -1,6 +1,6 @@
 OASISFormat: 0.3
 Name:        gnt
-Version:     1.0.1
+Version:     1.0.2
 Synopsis:    Xen grant table bindings
 Authors:     John Else, David Scott
 License:     ISC
