@@ -42,6 +42,20 @@ Executable test_gntshr
   NativeOpt:          -bin-annot
   BuildDepends:       xen-gnt, xen-gnt.unix, cstruct
 
+Executable linking
+  Build$:             flag(tests)&&flag(xenctrl)
+  CompiledObject:     best
+  Path:               lib_test
+  MainIs:             main.ml
+  Custom:             true
+  Install:            false
+  NativeOpt:          -dontlink unix
+  BuildDepends:       xen-gnt, xen-gnt.unix
+
+Test portable
+  Command:            ./main.native
+  Run:                true
+
 Document api
   Title: Grant table bindings' documentation and API reference
   Type: ocamlbuild (0.3)

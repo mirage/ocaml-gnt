@@ -48,9 +48,6 @@ static void gntshr_missing()
 
 #define XC_GNTTAB_BIGARRAY (CAML_BA_UINT8 | CAML_BA_C_LAYOUT | CAML_BA_EXTERNAL)
 
-#define Nothing ((value) 0)
-extern void uerror(char *cmdname, value cmdarg);
-
 #ifdef HAVE_GNTSHR
 #define ERROR_STRLEN 1024
 static void failwith_xc(xc_interface *xch)
@@ -81,7 +78,7 @@ CAMLprim value stub_gntshr_open(value unit)
 
 	xgh = xc_gntshr_open(NULL, 0);
 	if (NULL == xgh)
-		uerror("xc_gntshr_open", Nothing);
+		caml_failwith("Failed to open interface");
 	result = (value)xgh;
 #else
 	gntshr_missing();
