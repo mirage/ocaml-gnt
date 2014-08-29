@@ -1,3 +1,6 @@
+1.0.3 (29-Aug-2014)
+ * Add workaround for broken Linux xc_gntshr_munmap
+
 1.0.2 (19-Jun-2014)
  * Fix build for Xen, broken in 1.0.1
 
