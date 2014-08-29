@@ -158,7 +158,13 @@ CAMLprim value stub_gntshr_munmap_batched(value xgh, value share) {
 
 	int size = Bigarray_val(ml_map)->dim[0];
 	int pages = size >> XC_PAGE_SHIFT;
+#ifdef linux
+	/* Bug in xen-4.4 libxc xc_linux_osdep implementation, work-around
+	   by using the kernel interface directly. */
+	int result = munmap(Data_bigarray_val(ml_map), size);
+#else
 	int result = xc_gntshr_munmap(_G(xgh), Data_bigarray_val(ml_map), pages);
+#endif
 	if(result != 0)
 		failwith_xc(_G(xgh));
 #else
