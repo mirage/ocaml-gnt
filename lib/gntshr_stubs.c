@@ -35,6 +35,12 @@
 #define HAVE_GNTSHR 1
 #endif
 
+CAMLprim value stub_gntshr_allocates(void)
+{
+        CAMLparam0();
+        CAMLreturn(Val_bool(1));
+}
+
 static void gntshr_missing()
 {
 	value *v = caml_named_value("gntshr.missing");

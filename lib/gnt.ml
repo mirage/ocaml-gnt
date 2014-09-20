@@ -135,6 +135,9 @@ end
 module Gntshr = struct
   type interface
 
+  external gntshr_allocates: unit -> bool = "stub_gntshr_allocates"
+  let gntshr_allocates = gntshr_allocates ()
+
   external interface_open': unit -> interface = "stub_gntshr_open"
   external interface_close: interface -> unit = "stub_gntshr_close"
 
@@ -169,7 +172,7 @@ module Gntshr = struct
   let num_free_grants () = Queue.length free_list
 
   let rec get () =
-    if Gnttab.gnttab_allocates
+    if gntshr_allocates
     then fail Interface_unavailable
     else match Queue.is_empty free_list with
       | true ->
@@ -190,7 +193,7 @@ module Gntshr = struct
     in gen_gnts num []
 
   let get_nonblock () =
-    if Gnttab.gnttab_allocates then raise Interface_unavailable;
+    if gntshr_allocates then raise Interface_unavailable;
     try Some (Queue.pop free_list) with Queue.Empty -> None
 
   let get_n_nonblock num =
@@ -216,13 +219,13 @@ module Gntshr = struct
   external grant_access : gntref -> Io_page.t -> int -> bool -> unit = "stub_gntshr_grant_access"
 
   let grant_access ~domid ~writable gntref page =
-    if Gnttab.gnttab_allocates then raise Interface_unavailable;
+    if gntshr_allocates then raise Interface_unavailable;
     grant_access gntref page domid writable
 
   external end_access : gntref -> unit = "stub_gntshr_end_access"
 
   let end_access g =
-    if Gnttab.gnttab_allocates then raise Interface_unavailable;
+    if gntshr_allocates then raise Interface_unavailable;
     end_access g
 
   let with_grant ~domid ~writable gnt page fn =
@@ -260,7 +263,7 @@ module Gntshr = struct
     end
 
   let share_pages_exn =
-    if Gnttab.gnttab_allocates
+    if gntshr_allocates
     then share_pages_batched_exn
     else share_pages_individually_exn
 
@@ -274,7 +277,7 @@ module Gntshr = struct
   external munmap_batched_exn: interface -> share -> unit = "stub_gntshr_munmap_batched"
 
   let munmap_exn =
-    if Gnttab.gnttab_allocates
+    if gntshr_allocates
     then munmap_batched_exn
     else munmap_individually_exn
 
