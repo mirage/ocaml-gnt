@@ -18,7 +18,7 @@ Library xen_gnt
   Modules:            Gnt
   ByteOpt:            -bin-annot
   NativeOpt:          -bin-annot
-  BuildDepends:       unix, bigarray, io-page, lwt
+  BuildDepends:       unix, bigarray, io-page, lwt, mirage-profile
 
 Library xen_gnt_unix
   Build$:             flag(xenctrl)

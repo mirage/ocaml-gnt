@@ -1,5 +1,5 @@
 # OPAM packages needed to build tests.
-OPAM_PACKAGES="lwt io-page cmdliner"
+OPAM_PACKAGES="lwt io-page cmdliner mirage-profile"
 
 
 case "$OCAML_VERSION,$OPAM_VERSION" in
