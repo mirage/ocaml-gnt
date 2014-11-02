@@ -1,6 +1,7 @@
 2.0.0 (12-Oct-2014):
 * Add support for Gnttab and Gntshr variants that may either
   allocate pages or not.  This library now supports both variants.
+* Add a local `opam` file for supporting the OPAM 1.2.0 workflow.
 
 1.0.3 (29-Aug-2014):
  * Add workaround for broken Linux xc_gntshr_munmap
