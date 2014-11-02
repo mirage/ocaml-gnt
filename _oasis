@@ -2,7 +2,7 @@ OASISFormat: 0.3
 Name:        gnt
 Version:     2.0.0
 Synopsis:    Xen grant table bindings
-Authors:     John Else, David Scott
+Authors:     John Else, David Scott, Anil Madhavapeddy
 License:     ISC
 Plugins:     META (0.3)
 BuildTools:  ocamlbuild
