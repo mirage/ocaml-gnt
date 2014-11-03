@@ -26,7 +26,7 @@ opam --git-version
 opam init 
 opam install ${OPAM_PACKAGES}
 
-eval `opam config -env`
+eval `opam config env`
 # build without xen
 make
 # .. then build with xen
