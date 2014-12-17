@@ -163,7 +163,10 @@ module Gntshr = struct
   let free_list : gntref Queue.t = Queue.create ()
   let free_list_waiters = Lwt_sequence.create ()
 
+  let count_gntref = MProf.Counter.make ~name:"gntref"
+
   let put r =
+    MProf.Counter.increase count_gntref (-1);
     Queue.push r free_list;
     match Lwt_sequence.take_opt_l free_list_waiters with
     | None -> ()
@@ -176,11 +179,12 @@ module Gntshr = struct
     then fail Interface_unavailable
     else match Queue.is_empty free_list with
       | true ->
-        let th, u = Lwt.task () in
+        let th, u = MProf.Trace.named_task "Wait for free gnt" in
         let node = Lwt_sequence.add_r u free_list_waiters  in
         Lwt.on_cancel th (fun () -> Lwt_sequence.remove node);
         th >> get ()
       | false ->
+        MProf.Counter.increase count_gntref (1);
         return (Queue.pop free_list)
 
   let get_n num =
@@ -219,12 +223,14 @@ module Gntshr = struct
   external grant_access : gntref -> Io_page.t -> int -> bool -> unit = "stub_gntshr_grant_access"
 
   let grant_access ~domid ~writable gntref page =
+    MProf.Trace.label "Gntshr.grant_access";
     if gntshr_allocates then raise Interface_unavailable;
     grant_access gntref page domid writable
 
   external end_access : gntref -> unit = "stub_gntshr_end_access"
 
   let end_access g =
+    MProf.Trace.label "Gntshr.end_access";
     if gntshr_allocates then raise Interface_unavailable;
     end_access g
 

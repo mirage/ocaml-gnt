@@ -15,9 +15,6 @@ configure: configure.ml
 
 LIBDIR=_build/lib
 
-setup.ml: _oasis
-	oasis setup
-
 setup.data: setup.ml
 	ocaml setup.ml -configure $(TESTS_FLAG) $(ENABLE_XENCTRL)
 

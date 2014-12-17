@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: f3b33248c42fd2c66986e5304c348cba)
+# DO NOT EDIT (digest: 05ce3541e6c0bdb6df9321b055507876)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -21,6 +21,7 @@ true: annot, bin_annot
 <lib/xen_gnt.{cma,cmxa}>: oasis_library_xen_gnt_native
 <lib/*.ml{,i,y}>: oasis_library_xen_gnt_native
 <lib/*.ml{,i,y}>: pkg_io-page
+<lib/*.ml{,i,y}>: pkg_mirage-profile
 # Library xen_gnt_unix
 "lib/xen_gnt_unix.cmxs": use_xen_gnt_unix
 <lib/*.ml{,i,y}>: oasis_library_xen_gnt_unix_ccopt
@@ -58,6 +59,7 @@ true: annot, bin_annot
 <test/test_gntshr.{native,byte}>: pkg_io-page.unix
 <test/test_gntshr.{native,byte}>: pkg_lwt
 <test/test_gntshr.{native,byte}>: pkg_lwt.unix
+<test/test_gntshr.{native,byte}>: pkg_mirage-profile
 <test/test_gntshr.{native,byte}>: pkg_unix
 <test/test_gntshr.{native,byte}>: use_xen_gnt
 <test/test_gntshr.{native,byte}>: use_xen_gnt_unix
@@ -67,6 +69,7 @@ true: annot, bin_annot
 <test/*.ml{,i,y}>: pkg_io-page.unix
 <test/*.ml{,i,y}>: pkg_lwt
 <test/*.ml{,i,y}>: pkg_lwt.unix
+<test/*.ml{,i,y}>: pkg_mirage-profile
 <test/*.ml{,i,y}>: pkg_unix
 <test/*.ml{,i,y}>: use_xen_gnt
 <test/*.ml{,i,y}>: use_xen_gnt_unix
@@ -78,6 +81,7 @@ true: annot, bin_annot
 <lib_test/main.{native,byte}>: pkg_io-page.unix
 <lib_test/main.{native,byte}>: pkg_lwt
 <lib_test/main.{native,byte}>: pkg_lwt.unix
+<lib_test/main.{native,byte}>: pkg_mirage-profile
 <lib_test/main.{native,byte}>: pkg_unix
 <lib_test/main.{native,byte}>: use_xen_gnt
 <lib_test/main.{native,byte}>: use_xen_gnt_unix
@@ -86,6 +90,7 @@ true: annot, bin_annot
 <lib_test/*.ml{,i,y}>: pkg_io-page.unix
 <lib_test/*.ml{,i,y}>: pkg_lwt
 <lib_test/*.ml{,i,y}>: pkg_lwt.unix
+<lib_test/*.ml{,i,y}>: pkg_mirage-profile
 <lib_test/*.ml{,i,y}>: pkg_unix
 <lib_test/*.ml{,i,y}>: use_xen_gnt
 <lib_test/*.ml{,i,y}>: use_xen_gnt_unix

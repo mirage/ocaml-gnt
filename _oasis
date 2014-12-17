@@ -1,6 +1,6 @@
-OASISFormat: 0.3
+OASISFormat: 0.4
 Name:        gnt
-Version:     2.0.0
+Version:     2.1.0
 Synopsis:    Xen grant table bindings
 Authors:     John Else, David Scott, Anil Madhavapeddy
 License:     ISC
@@ -18,7 +18,7 @@ Library xen_gnt
   Modules:            Gnt
   ByteOpt:            -bin-annot
   NativeOpt:          -bin-annot
-  BuildDepends:       unix, bigarray, io-page, lwt
+  BuildDepends:       unix, bigarray, io-page, lwt, mirage-profile
 
 Library xen_gnt_unix
   Build$:             flag(xenctrl)

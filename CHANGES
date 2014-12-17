@@ -1,3 +1,6 @@
+2.1.0 (17-Dec-2014):
+* Report profiling/tracing information using `mirage-profile` (#15).
+
 2.0.0 (12-Oct-2014):
 * Add support for Gnttab and Gntshr variants that may either
   allocate pages or not.  This library now supports both variants.
