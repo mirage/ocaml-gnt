@@ -1,5 +1,5 @@
-trunk
-* Report profiling/tracing information.
+2.1.0 (17-Dec-2014):
+* Report profiling/tracing information using `mirage-profile` (#15).
 
 2.0.0 (12-Oct-2014):
 * Add support for Gnttab and Gntshr variants that may either

@@ -1,6 +1,6 @@
-OASISFormat: 0.3
+OASISFormat: 0.4
 Name:        gnt
-Version:     2.0.0
+Version:     2.1.0
 Synopsis:    Xen grant table bindings
 Authors:     John Else, David Scott, Anil Madhavapeddy
 License:     ISC
