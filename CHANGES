@@ -1,3 +1,6 @@
+2.2.0 (27-Jan-2015):
+* Support the `Io_page` 1.3.0+ API (#17).
+
 2.1.0 (17-Dec-2014):
 * Report profiling/tracing information using `mirage-profile` (#15).
 
