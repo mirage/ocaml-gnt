@@ -18,11 +18,11 @@ open Gnt
 
 let main shr_h dev_h =
   let share = Gntshr.share_pages_exn shr_h 0 1 true in
-  let io_page_shr_side = Gntshr.(share.mapping) |> Cstruct.of_bigarray in
+  let io_page_shr_side = Gntshr.(share.mapping) |> Io_page.to_cstruct in
   List.iter (fun r -> Printf.printf "Shared a page with gntref = %d\n%!" r) Gntshr.(share.refs);
   Printf.printf "Shared page(s) OK. Now trying to map.\n%!";
   let local_mapping = Gnttab.map_exn dev_h Gnttab.({domid=0; ref=List.hd Gntshr.(share.refs)}) true in
-  let io_page_map_side = Gnttab.Local_mapping.(to_buf local_mapping) |> Cstruct.of_bigarray in
+  let io_page_map_side = Gnttab.Local_mapping.(to_buf local_mapping) |> Io_page.to_cstruct in
   Printf.printf "Mapping OK. Now writing randow stuff in one side and check we have the same thing on the other side.\n%!";
   let random_string = String.create 4096 in
   let zero_string = String.make 4096 '\000' in
@@ -39,11 +39,11 @@ let main shr_h dev_h =
   Gntshr.munmap_exn shr_h share;
   Printf.printf "Now trying to share and map 10 pages as a vector.\n%!";
   let share = Gntshr.share_pages_exn shr_h 0 10 true in
-  let io_page_shr_side = Gntshr.(share.mapping) |> Cstruct.of_bigarray in
+  let io_page_shr_side = Gntshr.(share.mapping) |> Io_page.to_cstruct in
   let refs = Gntshr.(share.refs) in
   let grants = List.map (fun ref -> Gnttab.({domid=0; ref})) refs in
   let local_mapping = Gnttab.mapv_exn dev_h grants true in
-  let io_page_map_side = Gnttab.Local_mapping.(to_buf local_mapping) |> Cstruct.of_bigarray in
+  let io_page_map_side = Gnttab.Local_mapping.(to_buf local_mapping) |> Io_page.to_cstruct in
   let random_string = String.create (4096*10) in
   let zero_string = String.make (4096*10) '\000' in
   let zero_string2 = String.make (4096*10) '\000' in
