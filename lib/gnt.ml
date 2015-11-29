@@ -165,12 +165,15 @@ module Gntshr = struct
 
   let count_gntref = MProf.Counter.make ~name:"gntref"
 
-  let put r =
-    MProf.Counter.increase count_gntref (-1);
+  let put_no_count r =
     Queue.push r free_list;
     match Lwt_sequence.take_opt_l free_list_waiters with
     | None -> ()
     | Some u -> Lwt.wakeup u ()
+
+  let put r =
+    MProf.Counter.increase count_gntref (-1);
+    put_no_count r
 
   let num_free_grants () = Queue.length free_list
 
@@ -311,7 +314,7 @@ external nr_reserved : unit -> int = "stub_gnttab_reserved"
 
 let _ =
   for i = nr_reserved () to nr_entries () - 1 do
-    Gntshr.put i;
+    Gntshr.put_no_count i;
   done;
   init ()
 
