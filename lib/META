@@ -1,6 +1,6 @@
 # OASIS_START
-# DO NOT EDIT (digest: dde54b2febd09afbf95f71113907ee79)
-version = "2.2.0"
+# DO NOT EDIT (digest: 599595cf53dc5f082805990ee6199def)
+version = "2.2.1"
 description = "Xen grant table bindings"
 requires = "unix bigarray io-page lwt mirage-profile"
 archive(byte) = "xen_gnt.cma"
@@ -9,7 +9,7 @@ archive(native) = "xen_gnt.cmxa"
 archive(native, plugin) = "xen_gnt.cmxs"
 exists_if = "xen_gnt.cma"
 package "unix" (
- version = "2.2.0"
+ version = "2.2.1"
  description = "Xen grant table bindings"
  requires = "unix lwt lwt.unix bigarray io-page.unix"
  archive(byte) = "xen_gnt_unix.cma"
