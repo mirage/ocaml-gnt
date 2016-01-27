@@ -30,6 +30,7 @@
 #include <caml/callback.h>
 #include <caml/bigarray.h>
 
+#define XC_WANT_COMPAT_GNTTAB_API
 #include <xenctrl.h>
 
 #define _G(__g) ((xc_gnttab *)(__g))

@@ -29,6 +29,7 @@
 #include <string.h>
 #include <assert.h>
 
+#define XC_WANT_COMPAT_GNTTAB_API
 #include <xenctrl.h>
 
 #if __XEN_INTERFACE_VERSION__ >= 0x00040200
