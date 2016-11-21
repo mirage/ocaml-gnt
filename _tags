@@ -97,4 +97,3 @@ true: annot, bin_annot
 <lib_test/main.{native,byte}>: custom
 # OASIS_STOP
 <lib>: include
-<lib/gnt.ml>: syntax_camlp4o, pkg_lwt.syntax

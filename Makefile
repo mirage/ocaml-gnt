@@ -39,4 +39,4 @@ reinstall: setup.ml
 
 clean:
 	ocamlbuild -clean
-	rm -f setup.data setup.log config.mk
+	rm -f setup.data setup.log config.mk configure
