@@ -125,11 +125,12 @@ module Gnttab = struct
 
   let with_mapping interface grant writable fn =
     let mapping = map interface grant writable in
-    try_lwt fn mapping
-    finally
-    match mapping with
-    | None -> Lwt.return ()
-    | Some mapping -> Lwt.return (unmap_exn interface mapping)
+    Lwt.finalize
+      (fun () -> fn mapping)
+      (fun () -> match mapping with
+        | None -> Lwt.return ()
+        | Some mapping -> Lwt.return (unmap_exn interface mapping)
+      )
 end
 
 module Gntshr = struct
@@ -185,7 +186,7 @@ module Gntshr = struct
         let th, u = MProf.Trace.named_task "Wait for free gnt" in
         let node = Lwt_sequence.add_r u free_list_waiters  in
         Lwt.on_cancel th (fun () -> Lwt_sequence.remove node);
-        th >> get ()
+        th >>= fun () -> get ()
       | false ->
         MProf.Counter.increase count_gntref (1);
         return (Queue.pop free_list)
@@ -195,8 +196,11 @@ module Gntshr = struct
       match num with
       | 0 -> return acc
       | n ->
-        lwt gnt = get () in
-        gen_gnts (n-1) (gnt :: acc)
+        begin
+          get ()
+          >>= fun gnt ->
+          gen_gnts (n-1) (gnt :: acc)
+        end
     in gen_gnts num []
 
   let get_nonblock () =
@@ -214,14 +218,18 @@ module Gntshr = struct
     in aux [] num
 
   let with_ref f =
-    lwt gnt = get () in
-    try_lwt f gnt
-    finally Lwt.return (put gnt)
+    get ()
+    >>= fun gnt ->
+    Lwt.finalize
+      (fun () -> f gnt)
+      (fun () -> Lwt.return (put gnt))
 
   let with_refs n f =
-    lwt gnts = get_n n in
-    try_lwt f gnts
-    finally Lwt.return (List.iter put gnts)
+    get_n n
+    >>= fun gnts ->
+    Lwt.finalize
+      (fun () -> f gnts)
+      (fun () -> Lwt.return (List.iter put gnts))
 
   external grant_access : gntref -> Io_page.t -> int -> bool -> unit = "stub_gntshr_grant_access"
 
@@ -239,17 +247,18 @@ module Gntshr = struct
 
   let with_grant ~domid ~writable gnt page fn =
     grant_access ~domid ~writable gnt page;
-    try_lwt fn ()
-    finally Lwt.return (end_access gnt)
+    Lwt.finalize fn
+      (fun () -> Lwt.return (end_access gnt))
 
   let with_grants ~domid ~writable gnts pages fn =
-    try_lwt
-      List.iter (fun (gnt, page) ->
-          grant_access ~domid ~writable gnt page) (List.combine gnts pages);
-      fn ()
-    finally
-      Lwt.return (List.iter end_access gnts)
-
+    Lwt.finalize
+      (fun () ->
+        List.iter (fun (gnt, page) ->
+            grant_access ~domid ~writable gnt page) (List.combine gnts pages);
+        fn ()
+      ) (fun () ->
+        Lwt.return (List.iter end_access gnts)
+      )
 
   exception Need_xen_4_2_or_later
   let () = Callback.register_exception "gntshr.missing" Need_xen_4_2_or_later
