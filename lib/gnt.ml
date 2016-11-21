@@ -89,7 +89,7 @@ module Gnttab = struct
   let mapv_exn interface grants writable = match gnttab_allocates with
     | true ->
       let count = List.length grants in
-      let grant_array = Array.create (count * 2) 0 in
+      let grant_array = Array.make (count * 2) 0 in
       List.iteri (fun i g ->
           grant_array.(i * 2 + 0) <- g.domid;
           grant_array.(i * 2 + 1) <- g.ref;
