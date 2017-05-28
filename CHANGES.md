@@ -1,46 +1,46 @@
-2.2.3 (21-Nov-2016):
+## 2.2.3 (21-Nov-2016):
 * Modernise opam file
 * Use a multi-distro travis configuration
 * Remove lwt.syntax
 * Use Array.make instead of Array.create
 
-2.2.2 (27-Jan-2016):
+## 2.2.2 (27-Jan-2016):
 * Add support for Xen-4.7
 
-2.2.1 (16-Dec-2015):
+## 2.2.1 (16-Dec-2015):
 * Start `gntref` counter at zero. (#19)
   Before, the initialisation code decreased the counter for each
   page added to the free list, causing the counter to start negative.
 
-2.2.0 (27-Jan-2015):
+## 2.2.0 (27-Jan-2015):
 * Support the `Io_page` 1.3.0+ API (#17).
 
-2.1.0 (17-Dec-2014):
+## 2.1.0 (17-Dec-2014):
 * Report profiling/tracing information using `mirage-profile` (#15).
 
-2.0.0 (12-Oct-2014):
+## 2.0.0 (12-Oct-2014):
 * Add support for Gnttab and Gntshr variants that may either
   allocate pages or not.  This library now supports both variants.
 * Add a local `opam` file for supporting the OPAM 1.2.0 workflow.
 
-1.0.3 (29-Aug-2014):
+## 1.0.3 (29-Aug-2014):
  * Add workaround for broken Linux xc_gntshr_munmap
 
-1.0.2 (19-Jun-2014):
+## 1.0.2 (19-Jun-2014):
  * Fix build for Xen, broken in 1.0.1
 
-1.0.1 (18-Jun-2014):
+## 1.0.1 (18-Jun-2014):
  * This code is now part of the Mirage project
  * better error message when kernel modules are missing
  * standardise on Mirage ISC license
 
-1.0.0 (30-Jan-2014):
+## 1.0.0 (30-Jan-2014):
  * only compile the C stubs if the xen headers are present. They
    aren't needed for Mirage kernels.
 
-0.9.9 (30-Jan-2014):
+## 0.9.9 (30-Jan-2014):
  * replace with the Mirage implementation. This allows the same
    application to be relinked to run in userspace or kernelspace.
 
-0.5.0 (20-Dec-2013):
+## 0.5.0 (20-Dec-2013):
  * initial release.
