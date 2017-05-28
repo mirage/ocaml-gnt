@@ -1,3 +1,10 @@
+## 3.0.0 (28-May-2017):
+* Split into 2 opam and ocamlfind packages:
+  xen-gnt: same as before
+  xen-gnt-unix: this used to be called xen-gnt.unix
+* Add dependencies for archlinux
+* Switch to jbuilder
+
 ## 2.2.3 (21-Nov-2016):
 * Modernise opam file
 * Use a multi-distro travis configuration
