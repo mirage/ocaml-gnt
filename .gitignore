@@ -11,6 +11,6 @@
 *.native
 *.byte
 _build
-setup.data
-setup.log
 api.docdir
+*.merlin
+*.install

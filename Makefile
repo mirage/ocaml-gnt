@@ -1,42 +1,21 @@
-all: build
 
-TESTS_FLAG=--enable-tests
+.PHONY: build clean test
 
-NAME=xen-gnt
-J=4
+build:
+	jbuilder build @install --dev
 
-include config.mk
-config.mk: configure
-	        ./configure
+test:
+	jbuilder runtest
 
-configure: configure.ml
-	        ocamlfind ocamlopt -package "cmdliner" -linkpkg $< -o $@
-		rm -f configure.c* configure.o
-
-LIBDIR=_build/lib
-
-setup.data: setup.ml
-	ocaml setup.ml -configure $(TESTS_FLAG) $(ENABLE_XENCTRL)
-
-build: setup.data setup.ml
-	ocaml setup.ml -build -j $(J)
-
-doc: setup.data setup.ml
-	ocaml setup.ml -doc -j $(J)
-
-install: setup.data setup.ml
-	ocaml setup.ml -install
+install:
+	jbuilder install
 
 uninstall:
-	ocamlfind remove $(NAME)
+	jbuilder uninstall
 
-test: setup.ml build
-	ocaml setup.ml -test
-
-reinstall: setup.ml
-	ocamlfind remove $(NAME) || true
-	ocaml setup.ml -reinstall
+.PHONY: docker
+docker:
+	docker build -t xen-gnt .
 
 clean:
-	ocamlbuild -clean
-	rm -f setup.data setup.log config.mk configure
+	rm -rf _build
