@@ -21,6 +21,7 @@ depexts: [
   [["debian"] ["libxen-dev"]]
   [["ubuntu"] ["libxen-dev"]]
   [["centos"] ["xen-devel"]]
+  [["fedora"] ["xen-devel"]]
   [["archlinux"] ["xenstore"]]
 ]
 available: [ ocaml-version >= "4.00.0" ]
