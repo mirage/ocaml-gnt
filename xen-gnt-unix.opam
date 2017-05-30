@@ -17,6 +17,7 @@ depends: [
   "io-page"
 ]
 depexts: [
+  [["alpine"] ["xen-dev"]]
   [["debian"] ["libxen-dev"]]
   [["ubuntu"] ["libxen-dev"]]
   [["archlinux"] ["xenstore"]]
