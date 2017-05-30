@@ -20,6 +20,7 @@ depexts: [
   [["alpine"] ["xen-dev"]]
   [["debian"] ["libxen-dev"]]
   [["ubuntu"] ["libxen-dev"]]
+  [["centos"] ["xen-devel"]]
   [["archlinux"] ["xenstore"]]
 ]
 available: [ ocaml-version >= "4.00.0" ]
