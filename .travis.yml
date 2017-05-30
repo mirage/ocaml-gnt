@@ -11,7 +11,7 @@ env:
    - POST_INSTALL_HOOK="opam depext -ui mirage-xen"
    - PINS="xen-evtchn:https://github.com/avsm/ocaml-evtchn.git#mato-add-xc-compat xen-gnt:."
  matrix:
-   #- DISTRO=debian-stable OCAML_VERSION=4.01.0
+   - DISTRO=debian-stable OCAML_VERSION=4.03.0
    - DISTRO=debian-testing OCAML_VERSION=4.02.3
    - DISTRO=debian-unstable OCAML_VERSION=4.03.0
    - DISTRO=ubuntu-12.04 OCAML_VERSION=4.02.3
