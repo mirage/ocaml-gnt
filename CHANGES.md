@@ -1,3 +1,6 @@
+## 3.0.1 (2017-06-17):
+* Change dependency on io-page.unix into io-page-unix
+
 ## 3.0.0 (2017-05-28):
 * Split into 2 opam and ocamlfind packages:
   xen-gnt: same as before

@@ -1,3 +1,5 @@
+(jbuild_version 1)
+
 (library
  ((name        xen_gnt)
   (public_name xen-gnt)
@@ -12,5 +14,5 @@
   (modules     (Gnt_dummy))
   (c_names     (gntshr_stubs gnttab_stubs))
   (c_library_flags (-L/usr/lib/xen-4.2/lib -lxenctrl))
-  (libraries   (unix lwt lwt.unix bigarray io-page.unix))
+  (libraries   (unix lwt lwt.unix bigarray io-page-unix))
 ))

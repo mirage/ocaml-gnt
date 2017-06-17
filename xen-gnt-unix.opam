@@ -4,6 +4,7 @@ authors: ["Anil Madhavapeddy" "John Else" "Thomas Leonard" "Andrew Cooper" "Davi
 homepage:      "https://github.com/mirage/ocaml-gnt"
 bug-reports:   "https://github.com/mirage/ocaml-gnt/issues"
 dev-repo:      "https://github.com/mirage/ocaml-gnt.git"
+doc:           "https://mirage.github.io/ocaml-gnt"
 
 build: [
   [ "jbuilder" "subst"] {pinned}
@@ -11,10 +12,9 @@ build: [
 ]
 
 depends: [
-  "ocamlfind" {build}
   "jbuilder"  {build & >="1.0+beta9"}
   "xen-gnt"
-  "io-page"
+  "io-page-unix" {>= "2.0.0"}
 ]
 depexts: [
   [["alpine"] ["xen-dev"]]
@@ -24,4 +24,4 @@ depexts: [
   [["fedora"] ["xen-devel"]]
   [["archlinux"] ["xenstore"]]
 ]
-available: [ ocaml-version >= "4.00.0" ]
+available: [ ocaml-version >= "4.03.0" ]
