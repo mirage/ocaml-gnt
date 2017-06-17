@@ -12,7 +12,6 @@ build: [
 ]
 
 depends: [
-  "ocamlfind" {build}
   "jbuilder"  {build & >="1.0+beta9"}
   "cstruct" {>= "1.0.1"}
   "io-page"
