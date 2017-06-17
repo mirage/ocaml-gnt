@@ -14,7 +14,7 @@ depends: [
   "ocamlfind" {build}
   "jbuilder"  {build & >="1.0+beta9"}
   "xen-gnt"
-  "io-page"
+  "io-page-unix" {>= "2.0.0"}
 ]
 depexts: [
   [["alpine"] ["xen-dev"]]
