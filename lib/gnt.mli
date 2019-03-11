@@ -139,7 +139,8 @@ module Gntshr : sig
   val munmap_exn : interface -> share -> unit
   (** Unmap a single mapping (which may involve multiple grants) *)
 
-  (** {2 Low-level interface}: this is only available in kernelspace *)
+  (** {2 Low-level interface}
+      This is is only available in kernelspace *)
 
   exception Interface_unavailable
   (** Raised when the low-level grant table interface is not available *)

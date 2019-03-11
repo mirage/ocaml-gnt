@@ -2,6 +2,8 @@
 - Port build to Dune and do not require Bigarray for
   core library (#34 @TheLortex)
 - Use lwt-dllist instead of deprecated Lwt_sequence (@avsm)
+- Avoid possible overflow in error printing buffer (@avsm)
+- Minor ocamldoc fixes (@avsm)
 
 ## 3.0.1 (2017-06-17):
 * Change dependency on io-page.unix into io-page-unix
