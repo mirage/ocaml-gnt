@@ -1,7 +1,7 @@
 (library
  (name xen_gnt)
  (public_name xen-gnt)
- (libraries unix bigarray io-page lwt mirage-profile)
+ (libraries io-page lwt mirage-profile)
  (modules Gnt)
  (wrapped false))
 
