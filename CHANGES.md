@@ -1,3 +1,8 @@
+## v3.1.0 (2019-03-11):
+- Port build to Dune and do not require Bigarray for
+  core library (#34 @TheLortex)
+- Use lwt-dllist instead of deprecated Lwt_sequence (@avsm)
+
 ## 3.0.1 (2017-06-17):
 * Change dependency on io-page.unix into io-page-unix
 

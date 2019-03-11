@@ -162,13 +162,13 @@ module Gntshr = struct
   (* For kernelspace we need to track the real free grant table slots. *)
 
   let free_list : gntref Queue.t = Queue.create ()
-  let free_list_waiters = Lwt_sequence.create ()
+  let free_list_waiters = Lwt_dllist.create ()
 
   let count_gntref = MProf.Counter.make ~name:"gntref"
 
   let put_no_count r =
     Queue.push r free_list;
-    match Lwt_sequence.take_opt_l free_list_waiters with
+    match Lwt_dllist.take_opt_l free_list_waiters with
     | None -> ()
     | Some u -> Lwt.wakeup u ()
 
@@ -184,8 +184,8 @@ module Gntshr = struct
     else match Queue.is_empty free_list with
       | true ->
         let th, u = MProf.Trace.named_task "Wait for free gnt" in
-        let node = Lwt_sequence.add_r u free_list_waiters  in
-        Lwt.on_cancel th (fun () -> Lwt_sequence.remove node);
+        let node = Lwt_dllist.add_r u free_list_waiters  in
+        Lwt.on_cancel th (fun () -> Lwt_dllist.remove node);
         th >>= fun () -> get ()
       | false ->
         MProf.Counter.increase count_gntref (1);
