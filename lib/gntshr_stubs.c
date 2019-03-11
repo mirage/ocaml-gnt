@@ -56,7 +56,7 @@ static void gntshr_missing()
 #define XC_GNTTAB_BIGARRAY (CAML_BA_UINT8 | CAML_BA_C_LAYOUT | CAML_BA_EXTERNAL)
 
 #ifdef HAVE_GNTSHR
-#define ERROR_STRLEN 1024
+#define ERROR_STRLEN 1030
 static void failwith_xc(xc_interface *xch)
 {
         static char error_str[ERROR_STRLEN];
