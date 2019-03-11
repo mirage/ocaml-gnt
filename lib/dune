@@ -10,5 +10,5 @@
  (public_name xen-gnt-unix)
  (modules Gnt_dummy)
  (c_names gntshr_stubs gnttab_stubs)
- (c_library_flags -L/usr/lib/xen-4.2/lib -lxenctrl)
+ (c_library_flags -lxenctrl)
  (libraries unix lwt lwt.unix bigarray io-page-unix))
