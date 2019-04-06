@@ -140,54 +140,68 @@ module Gntshr : sig
   (** Unmap a single mapping (which may involve multiple grants) *)
 
   (** {2 Low-level interface}
-      This is is only available in kernelspace *)
+      This is is only available in kernelspace and is deprecated.
+      For low-level access, use mirage-xen's OS.Xen API instead. *)
 
   exception Interface_unavailable
   (** Raised when the low-level grant table interface is not available *)
 
   val get : unit -> gntref Lwt.t
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
   (** Allocate a single grant table index *)
 
   val get_n : int -> gntref list Lwt.t
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
   (** Allocate a block of n grant table indices *)
 
   val put : gntref -> unit
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
   (** Deallocate a grant table index *)
 
   val get_nonblock : unit-> gntref option
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
   (** [get_nonblock ()] is [Some idx] is the grant table is not full,
       or [None] otherwise. *)
 
   val get_n_nonblock : int -> gntref list
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
   (** [get_n_nonblock count] is a list of grant table indices of
       length [count], or [[]] if there if the table is too full to
       accomodate [count] new grant references. *)
 
   val num_free_grants : unit -> int
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
   (** [num_free_grants ()] returns the number of instantaneously free grant
       table indices *)
 
   val with_ref: (gntref -> 'a Lwt.t) -> 'a Lwt.t
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
 
   val with_refs: int -> (gntref list -> 'a Lwt.t) -> 'a Lwt.t
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
 
   val grant_access : domid:int -> writable:bool -> gntref -> Io_page.t -> unit
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
   (** [grant_access ~domid ~writable gntref page] adds a grant table
       entry at index [gntref] to the grant table, granting access to
       [domid] to read [page], and write to is as well if [writable] is
       [true]. *)
 
   val end_access : gntref -> unit
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
   (** [end_access gntref] removes entry index [gntref] from the grant
       table. *)
 
   val with_grant : domid:int -> writable:bool -> gntref ->
     Io_page.t -> (unit -> 'a Lwt.t) -> 'a Lwt.t
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
 
   val with_grants : domid:int -> writable:bool -> gntref list ->
     Io_page.t list -> (unit -> 'a Lwt.t) -> 'a Lwt.t
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
 
   val with_gntshr : (interface -> 'a) -> 'a
+    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
   (** [with_gntshr f] opens an interface to gntshr, passes it to f, then returns
       the result of f (or re-raises any exceptions) ensuring that the gntshr
       interface is closed before returning. *)
