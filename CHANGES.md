@@ -1,3 +1,8 @@
+## v4.0.0 (2019-04-07):
+- Mark all unikernel-only APIs as deprecated. These functions
+  fail at runtime if called from Unix. A newer low-level API
+  is provided by mirage-xen. (#36, by @talex5)
+
 ## v3.1.0 (2019-03-11):
 - Port build to Dune and do not require Bigarray for
   core library (#34 @TheLortex)
