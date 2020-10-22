@@ -25,14 +25,14 @@ let main shr_h dev_h =
   let io_page_map_side = Gnttab.Local_mapping.(to_buf local_mapping) |> Io_page.to_cstruct in
   Printf.printf "Mapping OK. Now writing randow stuff in one side and check we have the same thing on the other side.\n%!";
   let random_string = String.create 4096 in
-  let zero_string = String.make 4096 '\000' in
-  let zero_string2 = String.make 4096 '\000' in
+  let zero_string = Bytes.make 4096 '\000' in
+  let zero_string2 = Bytes.make 4096 '\000' in
   Cstruct.blit_from_string random_string 0 io_page_shr_side 0 4096;
-  Cstruct.blit_to_string io_page_shr_side 0 zero_string 0 4096;
-  assert (zero_string = random_string);
+  Cstruct.blit_to_bytes io_page_shr_side 0 zero_string 0 4096;
+  assert (String.equal (Bytes.to_string zero_string) random_string);
   Printf.printf "I blitted random 4096 chars on the page, and read back the same, all OK!\n%!";
-  Cstruct.blit_to_string io_page_map_side 0 zero_string2 0 4096;
-  assert (zero_string2 = random_string);
+  Cstruct.blit_to_bytes io_page_map_side 0 zero_string2 0 4096;
+  assert (String.equal (Bytes.to_string zero_string2) random_string);
   Printf.printf "I read the same as well from the map side...\n%!";
   Printf.printf "Now unmapping and unsharing everything.\n%!";
   Gnttab.unmap_exn dev_h local_mapping;
@@ -45,14 +45,14 @@ let main shr_h dev_h =
   let local_mapping = Gnttab.mapv_exn dev_h grants true in
   let io_page_map_side = Gnttab.Local_mapping.(to_buf local_mapping) |> Io_page.to_cstruct in
   let random_string = String.create (4096*10) in
-  let zero_string = String.make (4096*10) '\000' in
-  let zero_string2 = String.make (4096*10) '\000' in
+  let zero_string = Bytes.make (4096*10) '\000' in
+  let zero_string2 = Bytes.make (4096*10) '\000' in
   Cstruct.blit_from_string random_string 0 io_page_shr_side 0 (4096*10);
-  Cstruct.blit_to_string io_page_shr_side 0 zero_string 0 (4096*10);
-  assert (zero_string = random_string);
+  Cstruct.blit_to_bytes io_page_shr_side 0 zero_string 0 (4096*10);
+  assert (String.equal (Bytes.to_string zero_string) random_string);
   Printf.printf "I blitted random 4096*10 chars on the page, and read back the same, all OK!\n%!";
-  Cstruct.blit_to_string io_page_map_side 0 zero_string2 0 (4096*10);
-  assert (zero_string2 = random_string);
+  Cstruct.blit_to_bytes io_page_map_side 0 zero_string2 0 (4096*10);
+  assert (String.equal (Bytes.to_string zero_string2) random_string);
   Printf.printf "I read the same as well from the map side...\n%!";
   Printf.printf "Success! Now unmapping and unsharing everything!\n%!";
   Gnttab.unmap_exn dev_h local_mapping;
