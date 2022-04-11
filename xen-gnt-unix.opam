@@ -11,15 +11,16 @@ homepage: "https://github.com/mirage/ocaml-gnt"
 doc: "https://mirage.github.io/ocaml-gnt/"
 bug-reports: "https://github.com/mirage/ocaml-gnt/issues"
 depends: [
-  "ocaml" {>= "4.03.0"}
+  "ocaml" {>= "4.08.0"}
   "dune" {>= "1.0"}
-  "xen-gnt"
-  "io-page-unix" {>= "2.0.0"}
-  "conf-xen" {build}
+  "xen-gnt" {= version}
+  "conf-xen"
 ]
+available: [ arch != "s390x" & arch != "ppc64" ]
 build: [
-  ["dune" "subst"] {pinned}
+  ["dune" "subst"] {dev}
   ["dune" "build" "-p" name "-j" jobs]
+  ["dune" "runtest" "-p" name "-j" jobs] {with-test}
 ]
 dev-repo: "git+https://github.com/mirage/ocaml-gnt.git"
 synopsis: "Xen grant table bindings for OCaml"
