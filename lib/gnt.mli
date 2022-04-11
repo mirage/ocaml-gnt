@@ -201,7 +201,6 @@ module Gntshr : sig
     [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
 
   val with_gntshr : (interface -> 'a) -> 'a
-    [@@ocaml.deprecated "Use mirage-xen's OS.Xen API instead."]
   (** [with_gntshr f] opens an interface to gntshr, passes it to f, then returns
       the result of f (or re-raises any exceptions) ensuring that the gntshr
       interface is closed before returning. *)
