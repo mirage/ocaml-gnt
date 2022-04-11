@@ -1,3 +1,9 @@
+## v4.0.1 (2022-04-11)
+- Use the conf-xen opam package for depext (#41, by @hannesm)
+- Require OCaml 4.08.0, remove deprecated io-page-unix, deprecation fixes
+  (#43, by @hannesm)
+- Remove deprecation from Gnt.with_gntshr (reported by @psafont in #38)
+
 ## v4.0.0 (2019-04-07):
 - Mark all unikernel-only APIs as deprecated. These functions
   fail at runtime if called from Unix. A newer low-level API
