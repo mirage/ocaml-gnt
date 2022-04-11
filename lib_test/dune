@@ -1,10 +1,4 @@
-(executables
- (names main)
+(test
+ (name main)
+ (package xen-gnt-unix)
  (libraries xen-gnt xen-gnt-unix))
-
-(alias
- (name runtest)
- (deps
-  (:< main.exe))
- (action
-  (run %{<})))
