@@ -24,6 +24,7 @@ build: [
   ["dune" "subst"] {dev}
   ["dune" "build" "-p" name "-j" jobs]
 ]
+available: [ arch != "s390x" & arch != "ppc64" & arch != "riscv64" ]
 dev-repo: "git+https://github.com/mirage/ocaml-gnt.git"
 synopsis: "Xen grant table bindings for OCaml"
 description: """
