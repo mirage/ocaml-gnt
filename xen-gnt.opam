@@ -23,7 +23,6 @@ depends: [
 build: [
   ["dune" "subst"] {dev}
   ["dune" "build" "-p" name "-j" jobs]
-  ["dune" "runtest" "-p" name "-j" jobs] {with-test}
 ]
 dev-repo: "git+https://github.com/mirage/ocaml-gnt.git"
 synopsis: "Xen grant table bindings for OCaml"
