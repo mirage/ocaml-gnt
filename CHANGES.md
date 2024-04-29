@@ -1,3 +1,6 @@
+## v4.0.2 (2024-04-29)
+- remove mirage-profile from dependency tree (#47, by @hannesm)
+
 ## v4.0.1 (2022-04-11)
 - Use the conf-xen opam package for depext (#41, by @hannesm)
 - Require OCaml 4.08.0, remove deprecated io-page-unix, deprecation fixes
