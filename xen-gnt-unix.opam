@@ -12,12 +12,13 @@ doc: "https://mirage.github.io/ocaml-gnt/"
 bug-reports: "https://github.com/mirage/ocaml-gnt/issues"
 license: "ISC"
 depends: [
-  "ocaml" {>= "4.08.0"}
+  "ocaml" {>= "4.08.0" & < "5"}
   "dune" {>= "1.0"}
   "xen-gnt" {= version}
+  "lwt"
   "conf-xen"
 ]
-available: [ arch != "s390x" & arch != "ppc64" ]
+available: [ arch != "s390x" & arch != "ppc64" & arch != "riscv64" ]
 build: [
   ["dune" "subst"] {dev}
   ["dune" "build" "-p" name "-j" jobs]
