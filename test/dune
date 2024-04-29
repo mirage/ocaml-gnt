@@ -1,3 +1,4 @@
-(executables
- (names test_gntshr)
+(test
+ (name test_gntshr)
+ (package xen-gnt-unix)
  (libraries xen-gnt xen-gnt-unix cstruct))
