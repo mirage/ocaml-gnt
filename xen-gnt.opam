@@ -35,3 +35,4 @@ This library can be used in both kernelspace (via Mirage) or in userspace
 (on Linux) via the xen-gnt-unix library.
 To see a concrete example, have a look at [mirage/ocaml-vchan]
 """
+x-maintenance-intent: [ "(latest)" ]
