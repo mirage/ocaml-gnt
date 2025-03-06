@@ -33,3 +33,4 @@ and "frontends" (clients).
 This library can be used in both kernelspace (via Mirage) or in userspace
 (on Linux). To see a concrete example, have a look at [mirage/ocaml-vchan]
 """
+x-maintenance-intent: [ "(latest)" ]
